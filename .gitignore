@@ -1,7 +1,27 @@
-/build/
-/run/
-/.idea/
-/.gradle/
-/buildSrc/build/
-/buildSrc/.gradle/
+# IDE
+.idea/
 *.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# Claude Code (local only)
+.claude/
+CLAUDE.md
+
+# Gradle
+.gradle/
+build/
+out/
+bin/
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Minecraft
+run/
+logs/
+crash-reports/
