@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "$mod_id$",
+  "version": "${version}",
+  "name": "$mod_name$",
+  "description": "Template mod for Cobblemon Odyssey",
+  "authors": [
+    "AmoAster",
+    "Stampede"
+  ],
+  "entrypoints": {
+    "main": [
+      "$mod_group$.$mod_name$"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": ">=1.21.1"
+  },
+  "mixins": ["$mod_id$.mixins.json"],
+  "accessWidener": "$mod_id$.accesswidener"
+}
