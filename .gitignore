@@ -5,8 +5,6 @@
 .settings/
 .project
 .classpath
-
-# Claude Code (local only)
 .claude/
 CLAUDE.md
 
