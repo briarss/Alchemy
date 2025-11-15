@@ -1,0 +1,27 @@
+{
+  "conversions": [
+    {
+      "id": "oraxen_items",
+      "priority": 100,
+      "condition": {
+        "type": "component_exists",
+        "path": "components.minecraft:custom_data.PublicBukkitValues.oraxen:id"
+      },
+      "operations": [
+        {
+          "type": "set_item_id_from_lookup",
+          "source": "components.minecraft:custom_data.PublicBukkitValues.oraxen:id",
+          "mapping": {
+            "ruby_sword": "custom:ruby_sword",
+            "emerald_pickaxe": "custom:emerald_pickaxe",
+            "sapphire_axe": "custom:sapphire_axe"
+          }
+        },
+        {
+          "type": "remove_component",
+          "path": "components.minecraft:custom_data.PublicBukkitValues"
+        }
+      ]
+    }
+  ]
+}

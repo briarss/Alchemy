@@ -1,0 +1,32 @@
+{
+  "conversions": [
+    {
+      "id": "armament_armor",
+      "priority": 90,
+      "condition": {
+        "type": "component_exists",
+        "path": "components.minecraft:custom_data.PublicBukkitValues.armament:armor"
+      },
+      "operations": [
+        {
+          "type": "set_item_id_from_lookup",
+          "source": "components.minecraft:custom_data.PublicBukkitValues.armament:armor",
+          "mapping": {
+            "ruby_set_helmet": "custom:ruby_helmet",
+            "ruby_set_chestplate": "custom:ruby_chestplate",
+            "ruby_set_leggings": "custom:ruby_leggings",
+            "ruby_set_boots": "custom:ruby_boots",
+            "emerald_set_helmet": "custom:emerald_helmet",
+            "emerald_set_chestplate": "custom:emerald_chestplate",
+            "emerald_set_leggings": "custom:emerald_leggings",
+            "emerald_set_boots": "custom:emerald_boots"
+          }
+        },
+        {
+          "type": "remove_component",
+          "path": "components.minecraft:custom_data.PublicBukkitValues"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "conversions": [
+    {
+      "id": "flourish_to_gtg_showdown_item",
+      "priority": 95,
+      "condition": {
+        "type": "component_exists",
+        "path": "components.minecraft:custom_data.flourish:showdown_item"
+      },
+      "operations": [
+        {
+          "type": "set_component",
+          "component": "minecraft:custom_data.gtg:showdownitem",
+          "value": {
+            "type": "map",
+            "map": {
+              "item_id": {
+                "type": "from_source",
+                "fromPath": "components.minecraft:custom_data.flourish:showdown_item.showdownItem"
+              },
+              "data": {
+                "type": "map",
+                "map": {
+                  "stored_pokemon": {
+                    "type": "from_source",
+                    "fromPath": "components.minecraft:custom_data.flourish:showdown_item.storedPokemon"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "remove_custom_data_key",
+          "path": "flourish:showdown_item"
+        }
+      ]
+    },
+    {
+      "id": "example_nested_restructure",
+      "priority": 85,
+      "condition": {
+        "type": "component_exists",
+        "path": "components.minecraft:custom_data.legacy_data"
+      },
+      "operations": [
+        {
+          "type": "set_component",
+          "component": "custom:new_structure",
+          "value": {
+            "type": "map",
+            "map": {
+              "identifier": {
+                "type": "from_source",
+                "fromPath": "components.minecraft:custom_data.legacy_data.old_id"
+              },
+              "metadata": {
+                "type": "map",
+                "map": {
+                  "level": {
+                    "type": "from_source",
+                    "fromPath": "components.minecraft:custom_data.legacy_data.power_level"
+                  },
+                  "type": {
+                    "type": "string",
+                    "string": "migrated"
+                  },
+                  "stats": {
+                    "type": "from_source",
+                    "fromPath": "components.minecraft:custom_data.legacy_data.statistics"
+                  }
+                }
+              },
+              "version": {
+                "type": "number",
+                "number": 2
+              }
+            }
+          }
+        },
+        {
+          "type": "remove_custom_data_key",
+          "path": "legacy_data"
+        }
+      ]
+    }
+  ]
+}

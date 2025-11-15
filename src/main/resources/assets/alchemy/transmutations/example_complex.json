@@ -1,0 +1,67 @@
+{
+  "conversions": [
+    {
+      "id": "custom_item_with_components",
+      "priority": 80,
+      "condition": {
+        "type": "all",
+        "allConditions": [
+          {
+            "type": "component_exists",
+            "path": "components.minecraft:custom_data.legacy_item_id"
+          },
+          {
+            "type": "component_equals",
+            "path": "components.minecraft:custom_data.legacy_item_id",
+            "value": "magic_wand"
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "set_item_id",
+          "itemId": "custom:magic_wand"
+        },
+        {
+          "type": "add_component",
+          "component": "minecraft:custom_model_data",
+          "value": {
+            "type": "number",
+            "number": 100
+          }
+        },
+        {
+          "type": "copy_component",
+          "from": "components.minecraft:custom_data.power_level",
+          "to": "components.custom:power_level"
+        },
+        {
+          "type": "remove_custom_data_key",
+          "path": "legacy_item_id"
+        },
+        {
+          "type": "remove_custom_data_key",
+          "path": "power_level"
+        }
+      ]
+    },
+    {
+      "id": "simple_rename",
+      "priority": 70,
+      "condition": {
+        "type": "item_id",
+        "itemId": "minecraft:stick"
+      },
+      "operations": [
+        {
+          "type": "set_component",
+          "component": "minecraft:item_name",
+          "value": {
+            "type": "string",
+            "string": "{\"text\":\"Magic Stick\",\"color\":\"gold\"}"
+          }
+        }
+      ]
+    }
+  ]
+}

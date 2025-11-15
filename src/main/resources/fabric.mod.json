@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "$mod_id$",
+  "id": "alchemy",
   "version": "${version}",
-  "name": "$mod_name$",
+  "name": "Alchemy",
   "description": "Template mod for Cobblemon Odyssey",
   "authors": [
     "AmoAster",
@@ -10,13 +10,13 @@
   ],
   "entrypoints": {
     "main": [
-      "$mod_group$.$mod_name$"
+      "aster.amo.alchemy.Alchemy"
     ]
   },
   "depends": {
     "fabricloader": ">=0.16.0",
     "minecraft": ">=1.21.1"
   },
-  "mixins": ["$mod_id$.mixins.json"],
-  "accessWidener": "$mod_id$.accesswidener"
+  "mixins": ["alchemy.mixins.json"],
+  "accessWidener": "alchemy.accesswidener"
 }

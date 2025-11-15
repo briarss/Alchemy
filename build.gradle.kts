@@ -72,66 +72,6 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:${project.properties["fabric_version"].toString()}")
     modImplementation("net.fabricmc:fabric-language-kotlin:${project.properties["fabric_kotlin_version"].toString()}")
 
-    // Adventure Text!
-    modImplementation(include("net.kyori:adventure-platform-fabric:5.14.2") {
-        exclude("com.google.code.gson")
-        exclude("ca.stellardrift", "colonel")
-        exclude("net.fabricmc")
-    })
-
-    // PermissionsAPI
-    modImplementation("me.lucko:fabric-permissions-api:0.3.1")
-
-    // GUI libraries
-//    modImplementation("ca.landonjw.gooeylibs:fabric-api-repack:3.1.0-1.21.1-SNAPSHOT@jar")
-//    modImplementation("eu.pb4:sgui:1.6.1+1.21.1")
-
-    // Placeholder Mods
-//    modImplementation("io.github.miniplaceholders:miniplaceholders-api:2.2.3")
-//    modImplementation("io.github.miniplaceholders:miniplaceholders-kotlin-ext:2.2.3")
-//    modImplementation("eu.pb4:placeholder-api:2.4.1+1.21")
-
-    // Impactor Libraries
-    modImplementation("net.impactdev.impactor:common:5.3.0+1.21.1-SNAPSHOT")
-    modImplementation("net.impactdev.impactor.api:economy:5.3.0-SNAPSHOT")
-    modImplementation("net.impactdev.impactor.api:text:5.3.0-SNAPSHOT")
-
-    // Polymer
-//    modImplementation("eu.pb4:polymer-core:0.9.18+1.21.1")
-//    modImplementation("eu.pb4:polymer-resource-pack:0.9.18+1.21.1")
-//    modImplementation("eu.pb4:polymer-networking:0.9.18+1.21.1")
-//    modImplementation("eu.pb4:polymer-virtual-entity:0.9.18+1.21.1")
-//    modImplementation("eu.pb4:polymer-blocks:0.9.18+1.21.1")
-
-    // Stimuli Events API
-//    modImplementation("xyz.nucleoid:stimuli:0.4.12+1.21")?.let { modImplementation(it) }
-
-    // Cobblemon
-//    modImplementation("com.cobblemon:fabric:1.6.1+1.21.1")
-
-    // Cardinal Components API
-//    include("dev.onyxstudios.cardinal-components-api:cardinal-components-base:6.1.1")?.let {
-//        modImplementation(it)
-//    }
-//    include("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:6.1.1")?.let {
-//        modImplementation(it)
-//    }
-
-    // Database Storage
-    implementation(include("org.mongodb:mongodb-driver-sync:4.11.0")!!)
-    implementation(include("org.mongodb:mongodb-driver-core:4.11.0")!!)
-    implementation(include("org.mongodb:bson:4.11.0")!!)
-
-    // SQL Storage
-    implementation(include("org.mariadb.jdbc:mariadb-java-client:3.1.0")!!)
-    implementation(include("com.zaxxer:HikariCP:5.1.0")!!)
-    implementation(include("org.xerial:sqlite-jdbc:3.43.2.2")!!)
-    implementation(include("com.h2database:h2:2.2.224")!!)
-    implementation(include("com.mysql:mysql-connector-j:8.2.0")!!)
-
-//    implementation(include("com.github.ben-manes.caffeine:caffeine:3.2.0")!!)
-
-    modCompileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 }
 
 tasks.processResources {
