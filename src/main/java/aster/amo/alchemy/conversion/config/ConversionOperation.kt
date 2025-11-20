@@ -16,6 +16,11 @@ data class ConversionOperation(
     val mapping: Map<String, String>? = null,
     val defaultValue: String? = null,
 
+    // For SET_ITEM_ID_FROM_COMPONENT
+    val prefix: String? = null,
+    val suffix: String? = null,
+    val stripNamespace: Boolean = false,
+
     // For REMOVE_COMPONENT
     val path: String? = null,
 

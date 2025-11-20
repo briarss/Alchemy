@@ -22,6 +22,7 @@ class TestItemCommand : SubCommand {
                 Commands.argument("type", StringArgumentType.word())
                     .suggests { _, builder ->
                         listOf(
+                            "gengarite",
                             "oraxen_ruby_sword",
                             "oraxen_emerald_pickaxe",
                             "oraxen_sapphire_axe",
@@ -52,6 +53,7 @@ class TestItemCommand : SubCommand {
             val type = StringArgumentType.getString(ctx, "type")
 
             val itemStack = when (type) {
+                "gengarite" -> createGengarite()
                 "oraxen_ruby_sword" -> createOraxenItem("ruby_sword", Items.DIAMOND_SWORD)
                 "oraxen_emerald_pickaxe" -> createOraxenItem("emerald_pickaxe", Items.DIAMOND_PICKAXE)
                 "oraxen_sapphire_axe" -> createOraxenItem("sapphire_axe", Items.DIAMOND_AXE)
@@ -74,6 +76,47 @@ class TestItemCommand : SubCommand {
             )
 
             return 1
+        }
+
+        private fun createGengarite(): ItemStack {
+            val stack = ItemStack(Items.POPPED_CHORUS_FRUIT)
+
+            // Set custom_model_data: 19
+            stack.set(
+                DataComponents.CUSTOM_MODEL_DATA,
+                net.minecraft.world.item.component.CustomModelData(19)
+            )
+
+            // Set item_name: Gengarite (light purple, italic false)
+            stack.set(
+                DataComponents.ITEM_NAME,
+                Component.empty()
+                    .append(
+                        Component.literal("Gengarite")
+                            .withStyle { style ->
+                                style.withColor(0xDDA0DD).withItalic(false)
+                            }
+                    )
+                    .withStyle { it.withItalic(false) }
+            )
+
+            // Set lore: "Held item to Mega evolve Gengar" (gray)
+            stack.set(
+                DataComponents.LORE,
+                net.minecraft.world.item.component.ItemLore(
+                    listOf(
+                        Component.literal("Held item to Mega evolve Gengar")
+                            .withStyle { it.withColor(0xAAAAAA) }
+                    )
+                )
+            )
+
+            // Add custom component: flourish:showdown_item with value "flourish:abomasite"
+            val customData = CompoundTag()
+            customData.putString("flourish:showdown_item", "flourish:abomasite")
+            stack.set(DataComponents.CUSTOM_DATA, CustomData.of(customData))
+
+            return stack
         }
 
         private fun createOraxenItem(oraxenId: String, baseItem: net.minecraft.world.item.Item): ItemStack {

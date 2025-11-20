@@ -66,19 +66,33 @@ object Transmuter {
 
             ConditionType.COMPONENT_EXISTS -> {
                 val path = condition.path ?: return false
-                getValueAtPath(dynamic, path) != null
+                val exists = getValueAtPath(dynamic, path) != null
+                if (ConfigManager.CONFIG.debug) {
+                    Alchemy.LOGGER.info("[Conversion]   Checking existence at path '$path': $exists")
+                }
+                exists
             }
 
             ConditionType.COMPONENT_EQUALS -> {
                 val path = condition.path ?: return false
                 val expectedValue = condition.value ?: return false
-                val actualValue = getStringAtPath(dynamic, path)
-                actualValue == expectedValue
+                val actualTag = getValueAtPath(dynamic, path)
+
+                val matches = compareValues(actualTag, expectedValue)
+
+                if (ConfigManager.CONFIG.debug) {
+                    val actualStr = actualTag?.let { tagToString(it) } ?: "null"
+                    Alchemy.LOGGER.info("[Conversion]   Comparing at path '$path': actual='$actualStr' vs expected='$expectedValue' -> $matches")
+                }
+                matches
             }
 
             ConditionType.ITEM_ID -> {
                 val expectedId = condition.itemId ?: return false
                 val actualId = getStringAtPath(dynamic, "id")
+                if (ConfigManager.CONFIG.debug) {
+                    Alchemy.LOGGER.info("[Conversion]   Checking item ID: actual='$actualId' vs expected='$expectedId'")
+                }
                 actualId == expectedId
             }
 
@@ -148,7 +162,21 @@ object Transmuter {
 
             OperationType.SET_ITEM_ID_FROM_COMPONENT -> {
                 val sourcePath = operation.source ?: return dynamic
-                val newId = getStringAtPath(dynamic, sourcePath) ?: return dynamic
+                var newId = getStringAtPath(dynamic, sourcePath) ?: return dynamic
+
+                // Strip namespace if requested (e.g., "flourish:abomasite" -> "abomasite")
+                if (operation.stripNamespace && newId.contains(':')) {
+                    newId = newId.substringAfter(':')
+                }
+
+                // Apply prefix and/or suffix if provided
+                if (operation.prefix != null) {
+                    newId = operation.prefix + newId
+                }
+                if (operation.suffix != null) {
+                    newId = newId + operation.suffix
+                }
+
                 setValueAtPath(dynamic, "id", dynamic.ops.createString(newId))
             }
 
@@ -218,6 +246,18 @@ object Transmuter {
             return value.asString
         }
 
+        // Handle byte tags that might represent booleans (must check before NumericTag since ByteTag extends NumericTag)
+        if (value is ByteTag) {
+            val byteVal = value.asByte
+            // If it's 0 or 1, it might be a boolean, but return numeric string for consistency
+            return byteVal.toString()
+        }
+
+        // Handle numeric NBT tags (includes IntTag, LongTag, FloatTag, DoubleTag, ShortTag)
+        if (value is NumericTag) {
+            return value.asNumber.toString()
+        }
+
         // Try to get string result from dynamic
         val parts = path.split(".")
         var current = OptionalDynamic(dynamic.ops, DataResult.success(dynamic))
@@ -226,6 +266,50 @@ object Transmuter {
         }
 
         return current.asString().result().orElse(null)
+    }
+
+    /**
+     * Convert an NBT tag to a string representation
+     */
+    private fun <T> tagToString(tag: T): String {
+        return when (tag) {
+            is StringTag -> tag.asString
+            is NumericTag -> tag.asNumber.toString()
+            else -> tag.toString()
+        }
+    }
+
+    /**
+     * Compare an NBT tag value with an expected value (from JSON config)
+     * Handles numeric comparisons properly (19 == 19.0)
+     */
+    private fun <T> compareValues(actualTag: T?, expectedValue: Any): Boolean {
+        if (actualTag == null) return false
+
+        // If actual is numeric, try numeric comparison first
+        if (actualTag is NumericTag) {
+            val actualNumber = actualTag.asNumber
+
+            // Try to parse expected value as number
+            val expectedNumber = when (expectedValue) {
+                is Number -> expectedValue
+                is String -> expectedValue.toDoubleOrNull()
+                else -> null
+            }
+
+            if (expectedNumber != null) {
+                // Compare as doubles for flexibility (19.0 == 19)
+                return actualNumber.toDouble() == expectedNumber.toDouble()
+            }
+        }
+
+        // If actual is string, compare as strings
+        if (actualTag is StringTag) {
+            return actualTag.asString == expectedValue.toString()
+        }
+
+        // Fallback to string comparison
+        return tagToString(actualTag) == expectedValue.toString()
     }
 
     /**

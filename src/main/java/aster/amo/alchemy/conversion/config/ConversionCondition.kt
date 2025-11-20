@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 data class ConversionCondition(
     val type: ConditionType,
     val path: String? = null,
-    val value: String? = null,
+    val value: Any? = null,  // Changed to Any to accept numbers, booleans, and strings from JSON
     val itemId: String? = null,
     @SerializedName("any")
     val anyConditions: List<ConversionCondition>? = null,

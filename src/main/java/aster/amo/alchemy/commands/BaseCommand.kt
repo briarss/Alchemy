@@ -6,6 +6,7 @@ import aster.amo.alchemy.Alchemy
 import aster.amo.alchemy.commands.subcommands.DebugCommand
 import aster.amo.alchemy.commands.subcommands.ReloadCommand
 import aster.amo.alchemy.commands.subcommands.TestItemCommand
+import aster.amo.alchemy.commands.subcommands.TestConversionCommand
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 
@@ -23,6 +24,7 @@ class BaseCommand {
             ReloadCommand().build(),
             DebugCommand().build(),
             TestItemCommand().build(),
+            TestConversionCommand().build(),
         )
 
         rootCommands.forEach { root ->
